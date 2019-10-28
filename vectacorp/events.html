@@ -1,0 +1,150 @@
+<!-- Name: Sanchita Kanade
+	 Instructor Name: Zak Ruvalcaba
+	 Class: CS648.01 Modern Web Development Frameworks Fall 2019
+	 File: events.html
+	 Assignment No.: 9
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JQuery Events</title>
+    <script src= "scripts/jquery.js"></script> 
+    <script>
+        $(function() { 
+            //Handling a click event on different buttons
+            $('#Button1').click(function() {
+                window.alert("Button has been clicked !");
+            }); 
+        
+            $('#Button2').bind('click', function() {
+                window.alert("Button has been clicked !");
+            }); 
+
+            $('#Button3').on('click', function() {
+                window.alert("Button has been clicked !");
+            });
+
+            $('body').on({
+                click:function() {
+                    window.alert("Button has been clicked !");
+                }
+            }, "#Button4, #Button5");
+
+            // Setting width and height properties for a div and handling multiple events
+            $('#div1').css('width','400px')
+                     .css('height','400px')
+                     .css('border', '2px solid MediumSeaGreen')
+                     .css('margin', '30px 0 30px 0');
+
+            //Following commented code is for number 5 within JQuery Event section
+            // $('body').on('mouseenter mouseleave click', '#div1', function() {
+            //    window.alert("The div was either clicked on, the mouse entered it, or the mouse left it.");
+            // });
+            
+            $('body').on({
+                mouseenter: function() {
+                    $('span').text('Mouse entered the div !');
+                },
+                mouseleave: function() {
+                    $('span').text('Mouse left the div !'); 
+                },
+                click: function() {
+                    $('span').text('Mouse clicked the div !'); 
+                }
+            }, '#div1');
+
+            // Handling a click event on a link
+            $("a").click(function(event) {
+                event.preventDefault();
+                $(this).css('color','red');
+                window.alert(event.target.nodeName + " triggered the event!");
+            });
+
+            // Handling Browser events
+            $(window).resize(function() {
+                $('#div2').text("browser height: " + $(window).height() + " browser width: " + $(window).width());
+            });
+
+            $('input').css('margin-top','30px');
+
+            //Handling the focus and blur events on a text field
+            $('body').on({
+                focus:function() {
+                    $('#event_test').css('background-color','LightGray');
+                },
+                blur:function() {
+                    $('#event_test').css('background-color','white');
+                }
+            }, '#event_test');
+
+            //Form Validation
+            $('#nameTextField').focus();
+            $("input[type='submit'").css('margin-left','148px').css('margin-top', '16px');
+
+            //Handling keypress event for input text fields in the form
+            $('#nameTextField').keypress(function () {
+                $('#nameTextField').css('border','2px solid green');
+            });
+
+            $('#email_1').keypress(function () {
+                $('#email_1').css('border','2px solid green');
+            });
+
+            //Handling the click event of the submit button
+            $('#info_form').submit(function(event) {
+                var isValid = true;
+                var name = $('#nameTextField').val();
+                var email = $('#email_1').val().trim();
+
+                if(name == '') {
+                    $('#nameTextField').css('border','1px solid red');
+                    isValid = false;
+                    window.alert("Name is required");
+                } 
+
+                if(email == '') {
+                    $('#email_1').css('border','1px solid red');
+                    isValid = false;
+                    window.alert("Email is required");
+                } 
+
+                if(isValid == false) {
+                    event.preventDefault();
+                } 
+            });
+        });
+    </script>      
+</head>
+<body>
+    <button id="Button1">Click Me</button>
+    <button id="Button2">Button 2</button>
+    <button id="Button3">Button 3</button>
+    <button id="Button4">Button 4</button>
+    <button id="Button5">Button 5</button>
+
+    <a href="http://www.modulemedia.com" target ='_blank'>go to modulemedia.com</a>
+
+    <div id="div1">This is my div tag</div>
+    <span></span>
+    <div id="div2"></div>
+    <label for="focus event">Event Test: </label>
+    <input type="text" id="event_test">
+
+    <form id='info_form' name="info_form" action="events.html" method="get">
+
+        <label for="name">Name: </label>
+        <input type="text" id="nameTextField" name="nameTextField">
+        <br>
+
+        <label for="email">Email: </label>
+        <input type="text" id="email_1" name="email_1">
+        <br>
+
+        <label>&nbsp;</label>
+        <input type="submit" id="register" value="Submit"><br>
+    </form>
+</body>
+</html>
